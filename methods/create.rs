@@ -37,9 +37,7 @@ impl DocumentBlock {
 			}
 			.insert(conn)?;
 
-			block
-				.make_property("name", name_block.id)
-				.insert(conn)?;
+			block.make_property("name", name_block.id).insert(conn)?;
 		}
 
 		Ok(block)

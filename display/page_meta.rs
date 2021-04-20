@@ -15,13 +15,14 @@ use crate::blocks::{data_block::DataBlock, document_block::DocumentBlock};
 
 impl DocumentBlock {
 	pub fn page_meta(block: &Block, user_id: Option<i32>, name: Option<Block>) -> PageMeta {
-		let mut page = PageMeta::default();
-		// Default header (if it's not editable)
-		page.header = Some(
-			name.clone()
-				.and_then(|block| block.block_data)
-				.unwrap_or_else(|| "Untitled Document".into()),
-		);
+		let mut page = PageMeta {
+			header: Some(
+				name.clone()
+					.and_then(|block| block.block_data)
+					.unwrap_or_else(|| "Untitled Document".into()),
+			),
+			..Default::default()
+		};
 
 		if let Some(user_id) = user_id {
 			let mut menu = MenuComponent::from_block(block, user_id);

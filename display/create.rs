@@ -14,9 +14,7 @@ impl DocumentBlock {
 		_context: &Context,
 		_user_id: i32,
 	) -> Result<CreationObject, LoopError> {
-		let header = TextComponent::heading("New Document Block");
-
-		let name_input = InputComponent {
+		let header = InputComponent {
 			label: Some("Name".to_string()),
 			name: Some("NAME".to_string()),
 			..InputComponent::default()
@@ -26,7 +24,7 @@ impl DocumentBlock {
 
 		let object = CreationObject {
 			header_component: header.into(),
-			main_component: name_input.into(),
+			main_component: TextComponent::new("You'll be able to edit the document later.").into(),
 			input_template: template,
 		};
 		Ok(object)

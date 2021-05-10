@@ -48,7 +48,7 @@ impl DocumentBlock {
 
 		Ok(CardComponent {
 			color: block.color.clone(),
-			header: Some(box header),
+			header: Some(header),
 			..CardComponent::new(Self::display_content(user_id, block, items, context)?)
 		}
 		.into())

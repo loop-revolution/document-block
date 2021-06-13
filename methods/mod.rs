@@ -4,6 +4,7 @@ pub mod add;
 pub mod create;
 pub mod visibility_update;
 use block_tools::blocks::BlockType;
+mod general_perm_update;
 
 impl DocumentBlock {
 	pub fn handle_method_delegate(

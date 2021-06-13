@@ -29,7 +29,9 @@ impl DocumentBlock {
 		for item in items {
 			let component: DisplayComponent;
 			if item.block_type == "text" {
-				component = TextBlock::rightfully_editable_richtext(user_id, &item).into();
+				let mut text = TextBlock::rightfully_editable_richtext(user_id, &item);
+				text.on_enter = Some(Self::build_add_method_object(block.id));
+				component = text.into();
 			} else {
 				component = delegate_embed_display(&item, context);
 			}

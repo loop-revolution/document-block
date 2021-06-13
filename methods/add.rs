@@ -38,12 +38,14 @@ impl DocumentBlock {
 
 impl DocumentBlock {
 	pub fn build_add_action_object(block_id: i64) -> ActionObject {
-		let method = MethodObject {
+		ActionObject::method(Self::build_add_method_object(block_id))
+	}
+	pub fn build_add_method_object(block_id: i64) -> MethodObject {
+		MethodObject {
 			block_type: Self::name(),
 			block_id: block_id.to_string(),
 			method_name: "add".to_string(),
 			arg_template: String::new(),
-		};
-		ActionObject::method(method)
+		}
 	}
 }

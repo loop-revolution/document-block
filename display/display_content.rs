@@ -3,11 +3,12 @@ use crate::{
 	delegation::display::delegate_embed_display,
 };
 use block_tools::{
+	auth::permissions::{has_perm_level, PermLevel},
 	blocks::Context,
 	display_api::component::{
-		atomic::text::TextComponent,
+		atomic::{icon::Icon, text::TextComponent},
 		layout::displaylist::{DisplayListComponent, DisplayListItem},
-		menus::menu::MenuComponent,
+		menus::menu::{CustomMenuItem, MenuComponent},
 		DisplayComponent,
 	},
 	models::{Block, NewBlock},
@@ -66,27 +67,26 @@ impl DocumentBlock {
 
 		// Adds "+" buttons to all parts of the list, but because of styling issues if left out
 		// for now.
-		// if let Some(user_id) = user_id {
-		// 	if has_perm_level(user_id, block, PermLevel::Edit) {
-		// 		let mut custom = CustomMenuItem::new("Add a Block", Icon::Plus);
-		// 		let action = Self::build_add_action_object(block.id);
-		// 		custom.interact = Some(action);
+		if let Some(user_id) = user_id {
+			if has_perm_level(user_id, block, PermLevel::Edit) {
+				let mut custom = CustomMenuItem::new("Add a Block", Icon::Plus);
+				let action = Self::build_add_block_action_object(block.id);
+				custom.interact = Some(action);
+				custom.listed = Some(true);
 
-		// 		list.items = list
-		// 			.items
-		// 			.into_iter()
-		// 			.map(|mut item| {
-		// 				item.menu = item.menu.and_then(|menu| {
-		// 					Some(MenuComponent {
-		// 						custom: Some(vec![custom.clone()]),
-		// 						..menu
-		// 					})
-		// 				});
-		// 				item
-		// 			})
-		// 			.collect();
-		// 	}
-		// }
+				list.items = list
+					.items
+					.into_iter()
+					.map(|mut item| {
+						item.menu = item.menu.map(|menu| MenuComponent {
+							custom: Some(vec![custom.clone()]),
+							..menu
+						});
+						item
+					})
+					.collect();
+			}
+		}
 
 		Ok(list.into())
 	}
